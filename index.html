@@ -3,38 +3,36 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>QR Code Generator from Image Link</title>
+  <title>QR Code Generator</title>
   <style>
     body {
+      margin: 0;
+      padding: 0;
       font-family: Arial, sans-serif;
       background-color: #f4f4f4;
       display: flex;
       justify-content: center;
-      align-items: flex-start; /* Top pe align */
+      align-items: center;
       min-height: 100vh;
-      margin: 0;
-      padding: 40px 20px;
     }
 
     .container {
       background: white;
       padding: 30px;
       border-radius: 12px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
       text-align: center;
-      transform: scale(1.2);
-      width: 100%;
+      width: 90%;
       max-width: 500px;
     }
 
     h1 {
-      color: #333;
-      font-size: 28px;
       margin-bottom: 20px;
+      font-size: 24px;
     }
 
     input[type="text"] {
-      width: 80%;
+      width: 100%;
       padding: 12px;
       font-size: 16px;
       border: 1px solid #ccc;
@@ -43,13 +41,14 @@
     }
 
     button {
-      padding: 12px 24px;
+      padding: 12px 20px;
       font-size: 16px;
       background-color: #007bff;
       color: white;
       border: none;
       border-radius: 6px;
       cursor: pointer;
+      margin: 10px 5px;
     }
 
     button:hover {
@@ -66,14 +65,18 @@
   <div class="container">
     <h1>QR Code Generator from Image URL</h1>
     <input type="text" id="imageUrl" placeholder="Paste your image URL here" />
-    <br><br>
+    <br />
     <button onclick="generateQR()">Generate QR</button>
+    <button onclick="downloadQR()">Download QR</button>
     <div id="qrcode"></div>
   </div>
 
   <!-- QRCode.js Library -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
   <script>
+    let qrCode;
+
     function generateQR() {
       const link = document.getElementById("imageUrl").value.trim();
 
@@ -84,16 +87,28 @@
 
       document.getElementById("qrcode").innerHTML = "";
 
-      new QRCode(document.getElementById("qrcode"), {
+      qrCode = new QRCode(document.getElementById("qrcode"), {
         text: link,
-        width: 200,
-        height: 200,
-        colorDark : "#000000",
-        colorLight : "#ffffff",
-        correctLevel : QRCode.CorrectLevel.H
+        width: 256,
+        height: 256,
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H
       });
     }
-  </script>
 
+    function downloadQR() {
+      const img = document.querySelector("#qrcode img");
+      if (!img) {
+        alert("Generate the QR code first.");
+        return;
+      }
+
+      const link = document.createElement("a");
+      link.href = img.src;
+      link.download = "qrcode.png";
+      link.click();
+    }
+  </script>
 </body>
 </html>
