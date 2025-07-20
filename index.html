@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>QR Code Generator from Image Link</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    input[type="text"] {
+      width: 300px;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      margin-right: 10px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    #qrcode {
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>QR Code Generator from Image URL</h1>
+
+  <div>
+    <input type="text" id="imageUrl" placeholder="Paste your image URL here" />
+    <button onclick="generateQR()">Generate QR</button>
+  </div>
+
+  <div id="qrcode"></div>
+
+  <!-- QRCode.js Library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+  <script>
+    function generateQR() {
+      const link = document.getElementById("imageUrl").value.trim();
+
+      if (!link) {
+        alert("Please enter an image link.");
+        return;
+      }
+
+      // Clear old QR
+      document.getElementById("qrcode").innerHTML = "";
+
+      // Generate QR Code
+      new QRCode(document.getElementById("qrcode"), {
+        text: link,
+        width: 200,
+        height: 200,
+        colorDark : "#000000",
+        colorLight : "#ffffff",
+        correctLevel : QRCode.CorrectLevel.H
+      });
+    }
+  </script>
+
+</body>
+  </html>
